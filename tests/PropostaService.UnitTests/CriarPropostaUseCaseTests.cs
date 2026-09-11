@@ -16,7 +16,7 @@ namespace PropostaService.UnitTests
             var mockRepo = new Mock<IPropostaRepository>();
             mockRepo
                 .Setup(r => r.AddAsync(It.IsAny<Proposta>()))
-                .Returns(System.Threading.Tasks.Task.CompletedTask)
+                .Returns(Task.CompletedTask)
                 .Verifiable();
 
             var useCase = new CriarPropostaUseCase(mockRepo.Object);

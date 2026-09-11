@@ -1,6 +1,9 @@
-# InsureFlow - Proposta Service
+# InsureFlow - Proposta & Contratacao Services
 
-This repository contains the Proposta (proposal) microservice for InsureFlow. The API is built with .NET 8 and exposes endpoints to create and list insurance proposals.
+This repository contains microservices for InsureFlow implemented in .NET 8:
+
+- PropostaService: proposal creation and management.
+- ContratacaoService: contracts management (created when a proposal is approved).
 
 Prerequisites
 - .NET 8 SDK installed (dotnet --version should show 8.x)
@@ -13,24 +16,32 @@ From the repository root (where InsureFlow.sln is located), run:
 - Restore and build the solution:
   dotnet build
 
-Run the API
-You can run the API project directly using the dotnet CLI. From the repository root run:
+Run the APIs
+You can run each API project directly using the dotnet CLI. From the repository root run:
+
+- PropostaService:
 
   dotnet run --project src/Services/PropostaService/InsureFlow.PropostaService.Api
 
-When the application starts it will print the listening URLs to the console. By default you can usually access the API at http://localhost:5000 or https://localhost:5001. Swagger UI is enabled in the Development environment at /swagger.
+- ContratacaoService:
+
+  dotnet run --project src/Services/ContratacaoService/InsureFlow.ContratacaoService.Api
+
+When the applications start they will print the listening URLs to the console. By default you can usually access the APIs at http://localhost:5000 or https://localhost:5001. Swagger UI is enabled in the Development environment at /swagger for both services.
 
 Run tests
-To run unit tests:
+To run unit tests for all projects:
 
   dotnet test
 
-or target the test project explicitly:
+Or target the test projects explicitly:
 
   dotnet test tests/PropostaService.UnitTests/PropostaService.UnitTests.csproj
+  dotnet test tests/ContratacaoService.UnitTests/ContratacaoService.UnitTests.csproj
 
 API Endpoints
-Base route: /api/propostas
+
+PropostaService (base route: /api/propostas)
 
 1) Create a proposal (POST)
 - URL: POST /api/propostas
@@ -64,6 +75,29 @@ cURL example:
 cURL example:
 
   curl "http://localhost:5000/api/propostas/{id}"
+
+ContratacaoService (base route: /api/contratacoes)
+
+1) Contract a proposal (POST)
+- URL: POST /api/contratacoes
+- Request body (JSON):
+  { "propostaId": "GUID" }
+- Behaviour: the service will call PropostaService to verify the proposal status. Only proposals with Status == "Aprovada" will be contracted. If not approved the service returns 409 Conflict.
+- Response: 201 Created with created resource and Location header pointing to GET /api/contratacoes/{id}
+
+cURL example:
+
+  curl -X POST "http://localhost:5001/api/contratacoes" \
+	-H "Content-Type: application/json" \
+	-d '{"propostaId":"<GUID>"}'
+
+2) Get contract by id (GET)
+- URL: GET /api/contratacoes/{id}
+- Response: 200 OK with contract JSON or 404 Not Found
+
+3) Get contract by proposal id (GET)
+- URL: GET /api/contratacoes/proposta/{propostaId}
+- Response: 200 OK with contract JSON or 404 Not Found
 
 Notes
 - The API uses an in-memory repository implementation (InMemoryPropostaRepository) by default. Data is not persisted between restarts.

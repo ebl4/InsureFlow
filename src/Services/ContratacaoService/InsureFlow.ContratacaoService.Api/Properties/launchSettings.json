@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "InsureFlow.ContratacaoService.Api": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:46104;http://localhost:46106"
+    }
+  }
+}

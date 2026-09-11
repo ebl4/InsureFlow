@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "InsureFlow.Shared.Kernel": {
+      "commandName": "Project"
+    },
+    "Profile 1": {
+      "commandName": "Executable"
+    }
+  }
+}

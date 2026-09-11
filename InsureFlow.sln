@@ -1,4 +1,5 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
 VisualStudioVersion = 18.0.0.0
 MinimumVisualStudioVersion = 10.0.40219.1
@@ -13,6 +14,14 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InsureFlow.PropostaService.Api", "src\Services\PropostaService\InsureFlow.PropostaService.Api\InsureFlow.PropostaService.Api.csproj", "{B1E7A2C4-1A6B-4D2F-8F6A-555555555555}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PropostaService.UnitTests", "tests\PropostaService.UnitTests\PropostaService.UnitTests.csproj", "{B1E7A2C4-1A6B-4D2F-8F6A-666666666666}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InsureFlow.ContratacaoService.Api", "src\Services\ContratacaoService\InsureFlow.ContratacaoService.Api\InsureFlow.ContratacaoService.Api.csproj", "{5110177E-FD38-8ACE-74BC-04D867832ED1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InsureFlow.ContratacaoService.Application", "src\Services\ContratacaoService\InsureFlow.ContratacaoService.Application\InsureFlow.ContratacaoService.Application.csproj", "{15061949-DE66-72EF-2895-A700C48687DB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InsureFlow.ContratacaoService.Domain", "src\Services\ContratacaoService\InsureFlow.ContratacaoService.Domain\InsureFlow.ContratacaoService.Domain.csproj", "{858D3081-C8F0-B0CF-E9A7-F3A46CCEEC86}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InsureFlow.ContratacaoService.Infrastructure", "src\Services\ContratacaoService\InsureFlow.ContratacaoService.Infrastructure\InsureFlow.ContratacaoService.Infrastructure.csproj", "{26594970-32B4-230F-0FEE-586148386052}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,8 +53,27 @@ Global
 		{B1E7A2C4-1A6B-4D2F-8F6A-666666666666}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B1E7A2C4-1A6B-4D2F-8F6A-666666666666}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B1E7A2C4-1A6B-4D2F-8F6A-666666666666}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5110177E-FD38-8ACE-74BC-04D867832ED1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5110177E-FD38-8ACE-74BC-04D867832ED1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5110177E-FD38-8ACE-74BC-04D867832ED1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5110177E-FD38-8ACE-74BC-04D867832ED1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15061949-DE66-72EF-2895-A700C48687DB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15061949-DE66-72EF-2895-A700C48687DB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15061949-DE66-72EF-2895-A700C48687DB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15061949-DE66-72EF-2895-A700C48687DB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{858D3081-C8F0-B0CF-E9A7-F3A46CCEEC86}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{858D3081-C8F0-B0CF-E9A7-F3A46CCEEC86}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{858D3081-C8F0-B0CF-E9A7-F3A46CCEEC86}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{858D3081-C8F0-B0CF-E9A7-F3A46CCEEC86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{26594970-32B4-230F-0FEE-586148386052}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{26594970-32B4-230F-0FEE-586148386052}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{26594970-32B4-230F-0FEE-586148386052}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{26594970-32B4-230F-0FEE-586148386052}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7CC3CAEF-13B8-4B61-918B-46C8468B3E2B}
 	EndGlobalSection
 EndGlobal

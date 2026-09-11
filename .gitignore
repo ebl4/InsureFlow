@@ -1,0 +1,59 @@
+# Visual Studio and .NET core
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build results
+[Bb]in/
+[Oo]bj/
+**/[Bb]in/
+**/[Oo]bj/
+
+# Rider, IntelliJ
+.idea/
+*.iml
+
+# Visual Studio Code
+.vscode/
+
+# NuGet
+*.nupkg
+packages/
+.project.lock.json
+
+# Testing
+TestResults/
+*.trx
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Secret/config files
+.env
+.env.*.local
+secrets.json
+
+# Resharper
+_ReSharper*/
+*.[Rr]e[Ss]harper
+
+# GitHub Copilot / IDE snapshots
+.vs/CopilotSnapshots/
+.copilot/
+
+# Other
+*.cache
+*.pdb
+*.db
+
+# Keep project and solution files
+!*.sln
+!**/*.csproj
+!**/*.fsproj
+!**/*.vbproj

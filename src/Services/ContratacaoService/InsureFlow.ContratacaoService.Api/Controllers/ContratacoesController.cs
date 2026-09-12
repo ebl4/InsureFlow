@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using InsureFlow.ContratacaoService.Application.UseCases;
-using InsureFlow.ContratacaoService.Application.Ports;
 using InsureFlow.ContratacaoService.Domain.Entities;
+using InsureFlow.ContratacaoService.Application.Services;
 
 namespace InsureFlow.ContratacaoService.Api.Controllers
 {
@@ -9,13 +8,11 @@ namespace InsureFlow.ContratacaoService.Api.Controllers
     [Route("api/[controller]")]
     public class ContratacoesController : ControllerBase
     {
-        private readonly ContratarPropostaUseCase _contratarUseCase;
-        private readonly IContratacaoRepository _repository;
+        private readonly IContratacaoService _service;
 
-        public ContratacoesController(ContratarPropostaUseCase contratarUseCase, IContratacaoRepository repository)
+        public ContratacoesController(IContratacaoService service)
         {
-            _contratarUseCase = contratarUseCase;
-            _repository = repository;
+            _service = service;
         }
 
         [HttpPost]
@@ -50,7 +47,7 @@ namespace InsureFlow.ContratacaoService.Api.Controllers
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetById(Guid id)
         {
-            var c = await _repository.GetByIdAsync(id);
+            var c = await _service.GetByIdAsync(id);
             if (c == null) return NotFound();
             return Ok(new ContratacaoResponse(c));
         }
@@ -58,7 +55,7 @@ namespace InsureFlow.ContratacaoService.Api.Controllers
         [HttpGet("proposta/{propostaId:guid}")]
         public async Task<IActionResult> GetByProposta(Guid propostaId)
         {
-            var c = await _repository.GetByPropostaIdAsync(propostaId);
+            var c = await _service.GetByPropostaIdAsync(propostaId);
             if (c == null) return NotFound();
             return Ok(new ContratacaoResponse(c));
         }

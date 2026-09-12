@@ -15,5 +15,9 @@
 	<ProjectReference Include="..\..\src\BuildingBlocks\InsureFlow.Shared.Kernel\InsureFlow.Shared.Kernel.csproj" />
 	<ProjectReference Include="..\..\src\Services\PropostaService\InsureFlow.PropostaService.Domain\InsureFlow.PropostaService.Domain.csproj" />
 	<ProjectReference Include="..\..\src\Services\PropostaService\InsureFlow.PropostaService.Application\InsureFlow.PropostaService.Application.csproj" />
+	  <ProjectReference Include="..\..\src\Services\PropostaService\InsureFlow.PropostaService.Api\InsureFlow.PropostaService.Api.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+	<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.0" />
   </ItemGroup>
 </Project>

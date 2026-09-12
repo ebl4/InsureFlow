@@ -1,5 +1,3 @@
-using System;
-
 namespace InsureFlow.ContratacaoService.Application.Exceptions
 {
     public class PropostaNaoAprovadaException : Exception

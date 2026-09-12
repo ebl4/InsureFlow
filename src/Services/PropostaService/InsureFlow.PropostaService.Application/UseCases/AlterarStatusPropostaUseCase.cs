@@ -1,5 +1,3 @@
-using System;
-using System.Threading.Tasks;
 using InsureFlow.Shared.Kernel;
 using InsureFlow.PropostaService.Application.Ports;
 using InsureFlow.PropostaService.Domain.Entities;

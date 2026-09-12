@@ -4,6 +4,7 @@ using InsureFlow.ContratacaoService.Application.UseCases;
 using InsureFlow.ContratacaoService.Application.Ports;
 using InsureFlow.ContratacaoService.Infrastructure.Clients;
 using InsureFlow.ContratacaoService.Infrastructure.Persistence;
+using InsureFlow.ContratacaoService.Application.Services;
 
 internal class Program
 {
@@ -18,6 +19,7 @@ internal class Program
         // DI
         builder.Services.AddSingleton<IContratacaoRepository, InMemoryContratacaoRepository>();
         builder.Services.AddTransient<ContratarPropostaUseCase>();
+        builder.Services.AddTransient<IContratacaoService, ContratacaoAppService>();
 
         // PropostaService HttpClient with Polly
         var propostaBase = builder.Configuration["PropostaService:BaseUrl"] ?? "http://localhost:5000";

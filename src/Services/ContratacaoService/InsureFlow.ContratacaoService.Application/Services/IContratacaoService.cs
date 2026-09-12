@@ -1,10 +1,10 @@
 using InsureFlow.ContratacaoService.Domain.Entities;
 
-namespace InsureFlow.ContratacaoService.Application.Ports
+namespace InsureFlow.ContratacaoService.Application.Services
 {
-    public interface IContratacaoRepository
+    public interface IContratacaoService
     {
-        Task AddAsync(Contratacao contratacao);
+        Task<Contratacao> ContratarAsync(Guid propostaId);
         Task<Contratacao?> GetByIdAsync(Guid id);
         Task<Contratacao?> GetByPropostaIdAsync(Guid propostaId);
     }

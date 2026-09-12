@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
-using InsureFlow.PropostaService.Application.UseCases;
-using InsureFlow.PropostaService.Application.Ports;
 using InsureFlow.PropostaService.Domain.Entities;
+using InsureFlow.PropostaService.Application.Services;
 
 namespace InsureFlow.PropostaService.Api.Controllers
 {
@@ -9,21 +8,17 @@ namespace InsureFlow.PropostaService.Api.Controllers
     [Route("api/[controller]")]
     public class PropostasController : ControllerBase
     {
-        private readonly CriarPropostaUseCase _criarUseCase;
-        private readonly AlterarStatusPropostaUseCase _alterarStatusUseCase;
-        private readonly IPropostaRepository _repository;
+        private readonly IPropostaService _service;
 
-        public PropostasController(CriarPropostaUseCase criarUseCase, IPropostaRepository repository, AlterarStatusPropostaUseCase alterarStatusUseCase)
+        public PropostasController(IPropostaService service)
         {
-            _criarUseCase = criarUseCase;
-            _alterarStatusUseCase = alterarStatusUseCase;
-            _repository = repository;
+            _service = service;
         }
 
         [HttpPost]
         public async Task<IActionResult> Post(CreatePropostaRequest request)
         {
-            var result = await _criarUseCase.ExecuteAsync(request.NomeSegurado, request.TipoSeguro, request.ValorCobertura, request.PremioMensal);
+            var result = await _service.CreateAsync(request.NomeSegurado, request.TipoSeguro, request.ValorCobertura, request.PremioMensal);
             if (result.IsFailure) return BadRequest(result.Error);
             var p = result.Value!;
             return CreatedAtAction(nameof(GetById), new { id = p.Id }, new PropostaResponse(p));
@@ -32,7 +27,7 @@ namespace InsureFlow.PropostaService.Api.Controllers
         [HttpGet]
         public async Task<IActionResult> Get()
         {
-            var list = await _repository.ListAsync();
+            var list = await _service.ListAsync();
             var resp = list.Select(p => new PropostaResponse(p));
             return Ok(resp);
         }
@@ -40,7 +35,7 @@ namespace InsureFlow.PropostaService.Api.Controllers
         [HttpGet("{id:guid}")]
         public async Task<IActionResult> GetById(Guid id)
         {
-            var p = await _repository.GetByIdAsync(id);
+            var p = await _service.GetByIdAsync(id);
             if (p == null) return NotFound();
             return Ok(new PropostaResponse(p));
         }
@@ -48,7 +43,7 @@ namespace InsureFlow.PropostaService.Api.Controllers
         [HttpPatch("{id:guid}/status")]
         public async Task<IActionResult> PatchStatus(Guid id, AlterarStatusRequest req)
         {
-            var result = await _alterarStatusUseCase.ExecuteAsync(id, req.Status);
+            var result = await _service.AlterarStatusAsync(id, req.Status);
             if (result.IsFailure)
             {
                 if (result.Error == "not_found") return NotFound();

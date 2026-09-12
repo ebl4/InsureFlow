@@ -1,6 +1,7 @@
 using InsureFlow.PropostaService.Application.UseCases;
 using InsureFlow.PropostaService.Application.Ports;
 using InsureFlow.PropostaService.Infrastructure.Persistence;
+using InsureFlow.PropostaService.Application.Services;
 
 internal class Program
 {
@@ -16,6 +17,7 @@ internal class Program
         builder.Services.AddSingleton<IPropostaRepository, InMemoryPropostaRepository>();
         builder.Services.AddTransient<CriarPropostaUseCase>();
         builder.Services.AddTransient<AlterarStatusPropostaUseCase>();
+        builder.Services.AddTransient<IPropostaService, PropostaAppService>();
 
         var app = builder.Build();
 

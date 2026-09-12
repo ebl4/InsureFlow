@@ -104,6 +104,23 @@ Notes
 - Swagger is available in Development environment. If running in Production environment, you may need to enable Swagger or use a different configuration.
 - If the API listens on a different port, check the application console output for the actual listening URLs or set ASPNETCORE_URLS or use --urls when running.
 
+Public application service interfaces
+
+The repository exposes application service interfaces used by controllers. Signatures:
+
+- PropostaService.Application.Services.IPropostaService
+
+  Task<Result<Proposta>> CreateAsync(string nomeSegurado, string tipoSeguro, decimal valorCobertura, decimal premioMensal);
+  Task<Result<Proposta>> AlterarStatusAsync(Guid propostaId, string novoStatus);
+  Task<Proposta?> GetByIdAsync(Guid id);
+  Task<IEnumerable<Proposta>> ListAsync();
+
+- ContratacaoService.Application.Services.IContratacaoService
+
+  Task<Contratacao> ContratarAsync(Guid propostaId);
+  Task<Contratacao?> GetByIdAsync(Guid id);
+  Task<Contratacao?> GetByPropostaIdAsync(Guid propostaId);
+
 Contributing
 - Create a branch, open a PR against main. Follow existing code conventions.
 

@@ -1,5 +1,3 @@
-using System;
-
 namespace InsureFlow.ContratacaoService.Domain.Entities
 {
     public class Contratacao

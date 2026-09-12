@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Mvc;
 using InsureFlow.ContratacaoService.Domain.Entities;
 using InsureFlow.ContratacaoService.Application.Services;
+using InsureFlow.ContratacaoService.Application.Exceptions;
+using Polly.CircuitBreaker;
 
 namespace InsureFlow.ContratacaoService.Api.Controllers
 {
@@ -20,10 +22,10 @@ namespace InsureFlow.ContratacaoService.Api.Controllers
         {
             try
             {
-                var c = await _contratarUseCase.ExecuteAsync(req.PropostaId);
+                var c = await _service.ContratarAsync(req.PropostaId);
                 return CreatedAtAction(nameof(GetById), new { id = c.Id }, new ContratacaoResponse(c));
             }
-            catch (Application.Exceptions.PropostaNaoAprovadaException ex)
+            catch (PropostaNaoAprovadaException ex)
             {
                 return Conflict(new { message = ex.Message });
             }
@@ -32,7 +34,7 @@ namespace InsureFlow.ContratacaoService.Api.Controllers
                 // Upstream service unreachable
                 return StatusCode(503, new { message = "Proposta service unavailable.", detail = ex.Message });
             }
-            catch (Polly.CircuitBreaker.BrokenCircuitException ex)
+            catch (BrokenCircuitException ex)
             {
                 // Circuit breaker open
                 return StatusCode(503, new { message = "Proposta service circuit open.", detail = ex.Message });

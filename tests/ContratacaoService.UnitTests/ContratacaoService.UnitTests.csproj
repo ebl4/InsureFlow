@@ -15,5 +15,9 @@
 	<ProjectReference Include="..\..\src\Services\ContratacaoService\InsureFlow.ContratacaoService.Domain\InsureFlow.ContratacaoService.Domain.csproj" />
 	<ProjectReference Include="..\..\src\Services\ContratacaoService\InsureFlow.ContratacaoService.Application\InsureFlow.ContratacaoService.Application.csproj" />
 	<ProjectReference Include="..\..\src\Services\ContratacaoService\InsureFlow.ContratacaoService.Infrastructure\InsureFlow.ContratacaoService.Infrastructure.csproj" />
+	  <ProjectReference Include="..\..\src\Services\ContratacaoService\InsureFlow.ContratacaoService.Api\InsureFlow.ContratacaoService.Api.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+	<PackageReference Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.0" />
   </ItemGroup>
 </Project>

@@ -1,4 +1,3 @@
-using System;
 using InsureFlow.Shared.Kernel;
 
 namespace InsureFlow.PropostaService.Domain.Entities

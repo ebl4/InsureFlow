@@ -1,5 +1,3 @@
-using System;
-using System.Threading.Tasks;
 using InsureFlow.ContratacaoService.Application.Exceptions;
 using InsureFlow.ContratacaoService.Application.Ports;
 using InsureFlow.ContratacaoService.Domain.Entities;

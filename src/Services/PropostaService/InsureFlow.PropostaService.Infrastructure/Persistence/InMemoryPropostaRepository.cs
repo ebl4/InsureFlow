@@ -24,6 +24,12 @@ namespace InsureFlow.PropostaService.Infrastructure.Persistence
             return Task.FromResult(proposta);
         }
 
+        public Task UpdateAsync(Proposta proposta)
+        {
+            _store[proposta.Id] = proposta;
+            return Task.CompletedTask;
+        }
+
         public Task<IEnumerable<Proposta>> ListAsync()
         {
             var list = _store.Values.ToList();

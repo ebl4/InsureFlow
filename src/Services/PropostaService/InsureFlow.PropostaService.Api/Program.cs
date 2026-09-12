@@ -15,6 +15,7 @@ internal class Program
         // DI registrations
         builder.Services.AddSingleton<IPropostaRepository, InMemoryPropostaRepository>();
         builder.Services.AddTransient<CriarPropostaUseCase>();
+        builder.Services.AddTransient<AlterarStatusPropostaUseCase>();
 
         var app = builder.Build();
 

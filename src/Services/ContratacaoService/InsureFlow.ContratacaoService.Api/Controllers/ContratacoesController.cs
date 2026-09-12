@@ -26,9 +26,24 @@ namespace InsureFlow.ContratacaoService.Api.Controllers
                 var c = await _contratarUseCase.ExecuteAsync(req.PropostaId);
                 return CreatedAtAction(nameof(GetById), new { id = c.Id }, new ContratacaoResponse(c));
             }
-            catch (Exception ex) when (ex.GetType().Name == "PropostaNaoAprovadaException")
+            catch (Application.Exceptions.PropostaNaoAprovadaException ex)
             {
                 return Conflict(new { message = ex.Message });
+            }
+            catch (HttpRequestException ex)
+            {
+                // Upstream service unreachable
+                return StatusCode(503, new { message = "Proposta service unavailable.", detail = ex.Message });
+            }
+            catch (Polly.CircuitBreaker.BrokenCircuitException ex)
+            {
+                // Circuit breaker open
+                return StatusCode(503, new { message = "Proposta service circuit open.", detail = ex.Message });
+            }
+            catch (Exception ex)
+            {
+                // fallback - internal server error
+                return StatusCode(500, new { message = "An unexpected error occurred.", detail = ex.Message });
             }
         }
 

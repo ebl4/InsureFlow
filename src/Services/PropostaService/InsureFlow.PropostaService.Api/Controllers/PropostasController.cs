@@ -10,11 +10,13 @@ namespace InsureFlow.PropostaService.Api.Controllers
     public class PropostasController : ControllerBase
     {
         private readonly CriarPropostaUseCase _criarUseCase;
+        private readonly AlterarStatusPropostaUseCase _alterarStatusUseCase;
         private readonly IPropostaRepository _repository;
 
-        public PropostasController(CriarPropostaUseCase criarUseCase, IPropostaRepository repository)
+        public PropostasController(CriarPropostaUseCase criarUseCase, IPropostaRepository repository, AlterarStatusPropostaUseCase alterarStatusUseCase)
         {
             _criarUseCase = criarUseCase;
+            _alterarStatusUseCase = alterarStatusUseCase;
             _repository = repository;
         }
 
@@ -42,9 +44,25 @@ namespace InsureFlow.PropostaService.Api.Controllers
             if (p == null) return NotFound();
             return Ok(new PropostaResponse(p));
         }
+
+        [HttpPatch("{id:guid}/status")]
+        public async Task<IActionResult> PatchStatus(Guid id, AlterarStatusRequest req)
+        {
+            var result = await _alterarStatusUseCase.ExecuteAsync(id, req.Status);
+            if (result.IsFailure)
+            {
+                if (result.Error == "not_found") return NotFound();
+                if (result.Error == "invalid_status") return BadRequest(new { message = "Invalid status. Use 'Aprovada' or 'Rejeitada'." });
+                return BadRequest(result.Error);
+            }
+
+            return Ok(new PropostaResponse(result.Value!));
+        }
     }
 
     public record CreatePropostaRequest(string NomeSegurado, string TipoSeguro, decimal ValorCobertura, decimal PremioMensal);
+
+    public record AlterarStatusRequest(string Status);
 
     public record PropostaResponse(Guid Id, string NomeSegurado, string TipoSeguro, decimal ValorCobertura, decimal PremioMensal, string Status, DateTime DataCriacao)
     {

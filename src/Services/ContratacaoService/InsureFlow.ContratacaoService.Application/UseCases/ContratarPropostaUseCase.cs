@@ -8,16 +8,28 @@ namespace InsureFlow.ContratacaoService.Application.UseCases
     {
         private readonly IPropostaServiceClient _propostaClient;
         private readonly IContratacaoRepository _repository;
+        private readonly IPropostaStatusReadModelRepository? _statusReadModel;
 
-        public ContratarPropostaUseCase(IPropostaServiceClient propostaClient, IContratacaoRepository repository)
+        public ContratarPropostaUseCase(IPropostaServiceClient propostaClient, IContratacaoRepository repository, IPropostaStatusReadModelRepository? statusReadModel = null)
         {
             _propostaClient = propostaClient;
             _repository = repository;
+            _statusReadModel = statusReadModel;
         }
 
         public async Task<Contratacao> ExecuteAsync(Guid propostaId)
         {
-            var status = await _propostaClient.GetPropostaStatusAsync(propostaId);
+            string? status = null;
+            if (_statusReadModel != null)
+            {
+                status = await _statusReadModel.GetStatusAsync(propostaId);
+            }
+
+            if (status == null)
+            {
+                status = await _propostaClient.GetPropostaStatusAsync(propostaId);
+            }
+
             if (status == null || !string.Equals(status, "Aprovada", StringComparison.OrdinalIgnoreCase))
             {
                 throw new PropostaNaoAprovadaException(propostaId);

@@ -1,0 +1,17 @@
+**/bin/
+**/obj/
+.vs/
+.git/
+.vscode/
+**/*.user
+**/*.suo
+**/*.userosscache
+**/*.sln.ide
+Dockerfile*
+**/*.log
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+**/*.nupkg
+*.ps1
+*.pem

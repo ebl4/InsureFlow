@@ -4,7 +4,9 @@ using InsureFlow.ContratacaoService.Application.UseCases;
 using InsureFlow.ContratacaoService.Application.Ports;
 using InsureFlow.ContratacaoService.Infrastructure.Clients;
 using InsureFlow.ContratacaoService.Infrastructure.Persistence;
+using Microsoft.EntityFrameworkCore;
 using InsureFlow.ContratacaoService.Application.Services;
+using InsureFlow.ContratacaoService.Infrastructure.RabbitMq;
 
 internal class Program
 {
@@ -17,9 +19,27 @@ internal class Program
         builder.Services.AddSwaggerGen();
 
         // DI
-        builder.Services.AddSingleton<IContratacaoRepository, InMemoryContratacaoRepository>();
+        var connStr = builder.Configuration.GetConnectionString("ContratacaoDatabase") ?? builder.Configuration["ConnectionStrings:ContratacaoDatabase"];
+        if (!string.IsNullOrEmpty(connStr))
+        {
+            builder.Services.AddDbContext<ContratacaoDbContext>(options =>
+                options.UseNpgsql(connStr));
+            builder.Services.AddScoped<IContratacaoRepository, ContratacaoEfRepository>();
+            builder.Services.AddScoped<IPropostaStatusReadModelRepository, PropostaStatusRepository>();
+            builder.Services.AddScoped<IPropostaStatusRepository>(sp => (PropostaStatusRepository)sp.GetRequiredService<IPropostaStatusReadModelRepository>());
+        }
+        else
+        {
+            builder.Services.AddSingleton<IContratacaoRepository, InMemoryContratacaoRepository>();
+        }
+
         builder.Services.AddTransient<ContratarPropostaUseCase>();
         builder.Services.AddTransient<IContratacaoService, ContratacaoAppService>();
+
+        // RabbitMQ consumer
+        var rabbitHost = builder.Configuration["RabbitMQ:HostName"] ?? builder.Configuration["RabbitMQ__HostName"] ?? "localhost";
+        builder.Services.AddSingleton<IHostedService>(sp =>
+            new PropostaStatusConsumer(rabbitHost, sp.GetRequiredService<IServiceScopeFactory>()));
 
         // PropostaService HttpClient with Polly
         var propostaBase = builder.Configuration["PropostaService:BaseUrl"] ?? "http://localhost:5000";
@@ -31,6 +51,14 @@ internal class Program
             .AddPolicyHandler(GetCircuitBreakerPolicy());
 
         var app = builder.Build();
+
+        // Ensure database created when using EF
+        if (!string.IsNullOrEmpty(connStr))
+        {
+            using var scope = app.Services.CreateScope();
+            var db = scope.ServiceProvider.GetRequiredService<ContratacaoDbContext>();
+            db.Database.EnsureCreated();
+        }
 
         if (app.Environment.IsDevelopment())
         {

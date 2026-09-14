@@ -121,6 +121,21 @@ The repository exposes application service interfaces used by controllers. Signa
   Task<Contratacao?> GetByIdAsync(Guid id);
   Task<Contratacao?> GetByPropostaIdAsync(Guid propostaId);
 
+Run with Docker
+
+1. Build and start all services with Docker Compose from repository root:
+
+   docker-compose -f docker/docker-compose.yml up --build
+
+2. The services will be available at:
+   - PropostaService: http://localhost:5000
+   - ContratacaoService: http://localhost:5001
+   - RabbitMQ Management UI: http://localhost:15672 (guest/guest)
+
+Database initialization
+
+The docker-compose file mounts SQL init scripts from docker/init-db into each Postgres container. These scripts create the required tables. For production use, switch to EF Core migrations managed by dotnet ef.
+
 Contributing
 - Create a branch, open a PR against main. Follow existing code conventions.
 

@@ -16,16 +16,16 @@ namespace InsureFlow.ContratacaoService.Infrastructure.Persistence
             {
                 b.ToTable("contratacoes");
                 b.HasKey(x => x.Id);
-                b.Property(x => x.PropostaId).IsRequired();
-                b.Property(x => x.DataContratacao);
+                b.Property(x => x.PropostaId).IsRequired().HasColumnName("proposta_id");
+                b.Property(x => x.DataContratacao).HasColumnName("data_contratacao");
             });
 
             modelBuilder.Entity<PropostaStatusReadModel>(b =>
             {
                 b.ToTable("proposta_statuses");
                 b.HasKey(x => x.PropostaId);
-                b.Property(x => x.Status).IsRequired();
-                b.Property(x => x.UpdatedAt);
+                b.Property(x => x.Status).IsRequired().HasColumnName("status");
+                b.Property(x => x.UpdatedAt).HasColumnName("updated_at");
             });
         }
     }

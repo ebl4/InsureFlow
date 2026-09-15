@@ -32,7 +32,7 @@ namespace InsureFlow.PropostaService.Application.Services
             if (result.IsSuccess && _publisher != null)
             {
                 var p = result.Value!;
-                var @event = new { Id = p.Id, Status = p.Status.ToString(), DataAtualizacao = p.DataAtualizacao };
+                var @event = new { p.Id, Status = p.Status.ToString(), p.DataAtualizacao };
                 try
                 {
                     _publisher.Publish("proposta.status", string.Empty, @event);

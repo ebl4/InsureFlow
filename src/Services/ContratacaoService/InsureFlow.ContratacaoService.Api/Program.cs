@@ -12,6 +12,8 @@ internal class Program
 {
     private static void Main(string[] args)
     {
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
         var builder = WebApplication.CreateBuilder(args);
 
         builder.Services.AddControllers();
@@ -23,7 +25,7 @@ internal class Program
         if (!string.IsNullOrEmpty(connStr))
         {
             builder.Services.AddDbContext<ContratacaoDbContext>(options =>
-                options.UseNpgsql(connStr));
+                options.UseNpgsql(connStr).UseSnakeCaseNamingConvention());
             builder.Services.AddScoped<IContratacaoRepository, ContratacaoEfRepository>();
             builder.Services.AddScoped<IPropostaStatusReadModelRepository, PropostaStatusRepository>();
             builder.Services.AddScoped<IPropostaStatusRepository>(sp => (PropostaStatusRepository)sp.GetRequiredService<IPropostaStatusReadModelRepository>());

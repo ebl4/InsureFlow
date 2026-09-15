@@ -8,6 +8,8 @@ internal class Program
 {
     private static void Main(string[] args)
     {
+        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
+
         var builder = WebApplication.CreateBuilder(args);
 
         builder.Services.AddControllers();
@@ -19,7 +21,7 @@ internal class Program
         if (!string.IsNullOrEmpty(connStr))
         {
             builder.Services.AddDbContext<InsureFlow.PropostaService.Infrastructure.Persistence.PropostaDbContext>(options =>
-                options.UseNpgsql(connStr));
+                options.UseNpgsql(connStr).UseSnakeCaseNamingConvention());
             builder.Services.AddScoped<InsureFlow.PropostaService.Application.Ports.IPropostaRepository, InsureFlow.PropostaService.Infrastructure.Persistence.PropostaEfRepository>();
         }
         else

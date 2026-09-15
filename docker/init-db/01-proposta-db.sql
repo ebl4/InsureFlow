@@ -1,10 +1,10 @@
 CREATE TABLE IF NOT EXISTS propostas (
   id uuid PRIMARY KEY,
-  nomesegurado text NOT NULL,
-  tiposeguro text NOT NULL,
-  valorcobertura numeric NOT NULL,
-  premiomensal numeric NOT NULL,
+  nome_segurado text NOT NULL,
+  tipo_seguro text NOT NULL,
+  valor_cobertura numeric NOT NULL,
+  premio_mensal numeric NOT NULL,
   status integer NOT NULL,
-  datacriacao timestamp without time zone NOT NULL,
-  dataatualizacao timestamp without time zone
+  data_criacao timestamp without time zone NOT NULL,
+  data_atualizacao timestamp without time zone
 );
